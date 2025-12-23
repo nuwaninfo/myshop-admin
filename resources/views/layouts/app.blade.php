@@ -19,11 +19,19 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div>
+
+    <div class="page-wrapper">
         @include('components.main.sidebar')
-        @include('components.main.nav')
-        @yield('content')
-        @include('compoents.main.footer')
+
+        <div class="main-content">
+            @include('components.main.nav')
+
+            <div class="body-content">
+                @yield('content')
+            </div>
+
+            @include('components.main.footer')
+        </div>
     </div>
 
     @include('libraries.scripts')
