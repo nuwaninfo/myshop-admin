@@ -1,3 +1,3 @@
 <div class="nav">
-    <h1>Navbar</h1>
+    <div class="nav-content"></div>
 </div>
