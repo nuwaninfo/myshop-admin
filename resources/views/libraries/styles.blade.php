@@ -85,4 +85,11 @@
              width: 100%;
          }
      }
+
+     .breadcrumb-header {
+         padding: 15px 0;
+         background-color: #c9dfe2;
+         border-bottom: 1px solid #ddd;
+         margin-bottom: 20px;
+     }
  </style>

@@ -27,6 +27,7 @@
             @include('components.main.nav')
 
             <div class="body-content">
+                @yield('header')
                 @yield('content')
             </div>
 
