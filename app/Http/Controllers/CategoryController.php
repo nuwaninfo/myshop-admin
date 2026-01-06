@@ -10,7 +10,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return view('pages.categories.index');
+        $response['categories'] = Category::all();
+        return view('pages.categories.index')->with($response);
     }
 
     public function create()
