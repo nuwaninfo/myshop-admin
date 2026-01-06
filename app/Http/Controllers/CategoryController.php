@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -18,7 +20,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        // Logic to store a new category
+        $data = $request->all();
+        $data['slug'] = STR::slug($request->name);
+
+        Category::create($data);
+        return redirect()->route('categories.index');
     }
 
     public function edit($category)

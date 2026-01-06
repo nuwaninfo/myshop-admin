@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('slug');
             $table->text('description')->nullable();
-            $table->integer('status')->dafault(1);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
