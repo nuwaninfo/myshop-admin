@@ -28,14 +28,19 @@ class CategoryController extends Controller
         return redirect()->route('categories.index');
     }
 
-    public function edit($category)
+    public function edit($category_id)
     {
-        return view('pages.categories.edit', compact('category'));
+        $response['category'] = Category::find($category_id);
+        return view('pages.categories.edit')->with($response);
     }
 
-    public function update(Request $request, $category)
+    public function update(Request $request, $category_id)
     {
-        // Logic to update the category
+        $data = $request->all();
+        $data['slug'] = STR::slug($request->name);
+
+        Category::find($category_id)->update($data);
+        return redirect()->route('categories.index');
     }
 
     public function delete($category)

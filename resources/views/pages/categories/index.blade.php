@@ -21,12 +21,12 @@
 @section('content')
    <div class="card">
     <div class="py-5 table-responsiv">
-        <table class="table mb-0 datatable table-hover text-md-nowrap">
+        <table class="table mb-0 datatable table-hover text-md-nowrap" id="categories-table">
             <thead class="thead-dark">
                 <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Slug</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -35,7 +35,7 @@
                 <tr>
                     <th scope="row">{{ $category->id }}</th>
                     <td>{{ $category->name }}</td>
-                    <td>{{ $category->slug }}</td>
+                    <td>{{ $category->description }}</td>
                     <td>
                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-primary">Edit</a>
                         <a href="#" class="btn btn-sm btn-danger">Delete</a>
