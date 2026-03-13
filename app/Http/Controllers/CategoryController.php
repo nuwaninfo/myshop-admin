@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Category;
 
-class CategoryController extends Controller
+class CategoryController extends ParentController
 {
     public function index()
     {
