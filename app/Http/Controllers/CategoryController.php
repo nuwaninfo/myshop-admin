@@ -43,13 +43,22 @@ class CategoryController extends ParentController
         return redirect()->route('categories.index');
     }
 
-    public function delete($category)
+    public function delete($category_id)
     {
-        // Logic to delete the category
+        $category = Category::find($category_id);
+        $category->delete();
+        return redirect()->route('categories.index');
     }
 
-    public function status($category)
+    public function status($category_id)
     {
-        // Logic to toggle the status of the category
+        $category = Category::find($category_id);
+        if ($category->status == 1) {
+            $category->status = 0;
+        } else {
+            $category->status = 1;
+        }
+        $category->save();
+        return redirect()->route('categories.index');
     }
 }

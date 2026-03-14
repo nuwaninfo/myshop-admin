@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Category;
 
 test('redirects guest to login page when visiting home', function () {
 
@@ -56,7 +57,7 @@ test('guest cannot access category delete page', function () {
 });
 
 test('guest cannot access category status page', function () {
-    $category = \App\Models\Category::factory()->create();
+    $category = Category::factory()->create();
     $response = $this->get(route('categories.status', $category->id));
 
     $response->assertStatus(302);
@@ -134,4 +135,92 @@ test('authenticated user can view category index', function () {
 
     $response->assertStatus(200);
     $response->assertViewIs('pages.categories.index');
+});
+
+test('authenticated user can view create category page', function () {
+    /** @var \Tests\TestCase $this */
+
+    $user = \App\Models\User::factory()->create();
+    $this->actingAs($user);
+
+    $response = $this->get(route('categories.create'));
+
+    $response->assertStatus(200);
+    $response->assertViewIs('pages.categories.create');
+});
+
+test('authenticated user can store a category', function () {
+    /** @var \Tests\TestCase $this */
+
+    $user = \App\Models\User::factory()->create();
+    $this->actingAs($user);
+
+    $data = [
+        'name' => 'Electronics',
+        'status' => 1,
+    ];
+
+    $response = $this->post(route('categories.store'), $data);
+
+    $response->assertRedirect(route('categories.index'));
+    $this->assertDatabaseHas('categories', ['name' => 'Electronics']);
+});
+
+test('authenticated user can view edit category page', function () {
+    /** @var \Tests\TestCase $this */
+    $user = \App\Models\User::factory()->create();
+    $this->actingAs($user);
+
+    $category = \App\Models\Category::factory()->create();
+
+    $response = $this->get(route('categories.edit', $category->id));
+
+    $response->assertStatus(200);
+    $response->assertViewIs('pages.categories.edit');
+});
+
+test('authenticated user can update a category', function () {
+    /** @var \Tests\TestCase $this */
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $category = Category::factory()->create();
+
+    $response = $this->post(route('categories.update', $category->id), [
+        'name' => 'Updated Name',
+        'status' => 1,
+    ]);
+
+    $response->assertRedirect(route('categories.index'));
+    $this->assertDatabaseHas('categories', ['name' => 'Updated Name']);
+});
+
+test('authenticated user can delete a category', function () {
+    /** @var \Tests\TestCase $this */
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $category = Category::factory()->create();
+
+    $response = $this->delete(route('categories.delete', $category->id));
+
+    $response->assertRedirect(route('categories.index'));
+    $this->assertDatabaseMissing('categories', ['id' => $category->id]);
+});
+
+test('authenticated user can toggle category status', function () {
+    /** @var \Tests\TestCase $this */
+    $user = \App\Models\User::factory()->create();
+    $this->actingAs($user);
+
+    $category = \App\Models\Category::factory()->create(['status' => 1]);
+
+    $response = $this->get(route('categories.status', $category->id));
+
+    $response->assertRedirect(route('categories.index'));
+
+    $this->assertDatabaseHas('categories', [
+        'id' => $category->id,
+        'status' => 0,
+    ]);
 });
